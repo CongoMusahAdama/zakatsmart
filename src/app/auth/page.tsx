@@ -40,7 +40,7 @@ const AuthPage = () => {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-green/95 via-brand-green/80 to-transparent z-10"></div>
                 <div className="relative z-20 max-w-sm text-white flex flex-col items-center text-center">
-                    <div className="w-24 h-24 mb-12 relative">
+                    <div className="w-56 h-56 mb-8 relative">
                         <Image src="/zakat logo.png" alt="Logo" fill className="object-contain" />
                     </div>
 
