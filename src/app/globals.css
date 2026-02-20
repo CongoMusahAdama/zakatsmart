@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-brand-green: #005C46;
+  --color-brand-green-light: #008D7D;
+  --color-brand-orange: #F7A300;
+  --color-brand-orange-hover: #E69600;
+  --color-brand-red: #D22B2B;
+  --color-slate-text: #475569;
+  --color-off-white: #FAF9F6;
+  --color-light-gray: #F3F4F6;
+
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-arabic: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif;
+}
+
+:root {
+  --background: #F9FAF7;
+  --foreground: #1E293B;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.hero-gradient {
+  background: radial-gradient(circle at top right, rgba(6, 95, 70, 0.05), transparent),
+    radial-gradient(circle at bottom left, rgba(217, 119, 6, 0.05), transparent);
+}
+
+section[id] {
+  scroll-margin-top: 80px;
+}
