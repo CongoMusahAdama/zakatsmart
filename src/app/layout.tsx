@@ -31,6 +31,8 @@ export default function RootLayout({
 }>) {
   const pathname = usePathname();
   const isAuthPage = pathname?.startsWith('/auth');
+  const isDashboardPage = pathname?.startsWith('/dashboard');
+  const hideLayout = isAuthPage || isDashboardPage;
 
   return (
     <html lang="en" className="scroll-smooth">
@@ -38,14 +40,14 @@ export default function RootLayout({
         className={`${inter.variable} ${outfit.variable} ${arabic.variable} font-body antialiased bg-off-white text-slate-text`}
       >
         <SplashScreen />
-        {!isAuthPage && (
+        {!hideLayout && (
           <div className="fixed top-0 left-0 right-0 z-[100]">
             <RamadanCountdown />
             <Navbar />
           </div>
         )}
         {children}
-        {!isAuthPage && <Footer />}
+        {!hideLayout && <Footer />}
       </body>
     </html>
   );

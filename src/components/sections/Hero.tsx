@@ -30,6 +30,7 @@ const Hero = () => {
                     transition={{ duration: 0.8, ease: "easeOut" }}
                     className="max-w-2xl flex flex-col items-center lg:items-start text-center lg:text-left mx-auto lg:mx-0"
                 >
+
                     <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold leading-[1.2] mb-6 md:mb-8 tracking-tight">
                         Calculate Your Zakat.<br />
                         <span className="text-brand-orange">Give With Confidence.</span>
@@ -40,6 +41,12 @@ const Hero = () => {
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                        <Link
+                            href="/auth"
+                            className="w-full sm:w-auto bg-brand-green hover:bg-brand-green-light text-white px-8 py-3.5 rounded-md font-bold text-xs md:text-sm uppercase tracking-[0.2em] transition-all shadow-2xl active:scale-95 flex items-center justify-center text-center"
+                        >
+                            Calculate Zakat
+                        </Link>
                         <a
                             href="https://docs.google.com/forms/d/e/1FAIpQLSc_-0wNEMvGI_KdOs08IfaVOgaI4g3CfOaIGSn-tZKR3scnfw/viewform?usp=publish-editor"
                             target="_blank"
@@ -47,12 +54,6 @@ const Hero = () => {
                             className="w-full sm:w-auto bg-brand-orange hover:bg-brand-orange-hover text-white px-8 py-3.5 rounded-md font-bold text-xs md:text-sm uppercase tracking-[0.2em] transition-all shadow-2xl active:scale-95 flex items-center justify-center text-center"
                         >
                             Join Waitlist
-                        </a>
-                        <a
-                            href="#features"
-                            className="w-full sm:w-auto bg-white/10 hover:bg-white/20 backdrop-blur-md text-white border border-white/20 px-8 py-3.5 rounded-md font-bold text-xs md:text-sm uppercase tracking-[0.2em] transition-all active:scale-95 flex items-center justify-center"
-                        >
-                            Learn More
                         </a>
                     </div>
                 </motion.div>

@@ -3,14 +3,22 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, User, Phone, MapPin, Briefcase, Calendar, ChevronDown, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { ghanaLocations, countries, ageRanges, employmentStatuses } from '@/lib/data';
 
 const AuthPage = () => {
+    const router = useRouter();
     const [isLogin, setIsLogin] = useState(true);
     const [showPassword, setShowPassword] = useState(false);
     const [registerStep, setRegisterStep] = useState(1);
+
+    const handleAuth = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Simulate auth and redirect
+        router.push('/dashboard');
+    };
 
     // Registration specific state
     const [selectedCountry, setSelectedCountry] = useState('');
@@ -40,8 +48,14 @@ const AuthPage = () => {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-br from-brand-green/95 via-brand-green/80 to-transparent z-10"></div>
                 <div className="relative z-20 max-w-sm text-white flex flex-col items-center text-center">
-                    <div className="w-56 h-56 mb-8 relative">
-                        <Image src="/zakat logo.png" alt="Logo" fill className="object-contain" />
+                    <div className="relative w-32 h-32 mb-8 flex items-center justify-center">
+                        <Image
+                            src="/zakat logo.png"
+                            alt="Zakat Smart Logo"
+                            width={120}
+                            height={120}
+                            className="object-contain relative z-10"
+                        />
                     </div>
 
                     <Link href="/" className="inline-flex items-center gap-3 text-white/70 hover:text-white transition-all mb-10 group uppercase text-[11px] font-black tracking-[0.3em] bg-white/5 px-6 py-2.5 rounded-full border border-white/10">
@@ -77,9 +91,19 @@ const AuthPage = () => {
                     {/* Multi-step Sidebar (Only for Signup) */}
                     {!isLogin && (
                         <div className="w-full md:w-[320px] bg-[#F8FBFA] p-10 border-r border-gray-100 flex flex-col">
-                            <div className="mb-12">
-                                <div className="text-brand-green font-black text-2xl tracking-tighter mb-1">ZAKAT AID</div>
-                                <div className="text-gray-400 text-[10px] uppercase font-bold tracking-widest">Digital Endowment</div>
+                            <div className="mb-12 flex items-center gap-3">
+                                <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+                                    <Image
+                                        src="/zakat logo.png"
+                                        alt="Zakat Smart Logo"
+                                        fill
+                                        className="object-contain"
+                                    />
+                                </div>
+                                <div>
+                                    <div className="text-brand-green font-black text-2xl tracking-tighter">ZAKAT SMART</div>
+                                    <div className="text-gray-400 text-[10px] uppercase font-bold tracking-widest">Digital Endowment</div>
+                                </div>
                             </div>
 
                             <h3 className="text-2xl font-black text-[#111111] mb-10">Create account</h3>
@@ -111,12 +135,20 @@ const AuthPage = () => {
                     <div className="flex-1 p-8 md:p-14 flex flex-col">
                         {isLogin ? (
                             <div className="max-w-sm mx-auto w-full flex-1 flex flex-col justify-center">
-                                <div className="mb-10 text-center">
-                                    <h1 className="text-3xl font-black text-[#111111] mb-2 uppercase tracking-tight tracking-tight">Welcome Back</h1>
+                                <div className="mb-10 text-center flex flex-col items-center">
+                                    <div className="relative w-20 h-20 flex items-center justify-center shrink-0 mb-4">
+                                        <Image
+                                            src="/zakat logo.png"
+                                            alt="Zakat Smart Logo"
+                                            fill
+                                            className="object-contain"
+                                        />
+                                    </div>
+                                    <h1 className="text-3xl font-black text-[#111111] mb-2 uppercase tracking-tight">Welcome Back</h1>
                                     <p className="text-gray-400 text-sm font-medium">Please enter your details to sign in.</p>
                                 </div>
 
-                                <form className="space-y-6">
+                                <form className="space-y-6" onSubmit={handleAuth}>
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 ml-1">Identity</label>
                                         <div className="relative group">
@@ -137,7 +169,7 @@ const AuthPage = () => {
                                             </button>
                                         </div>
                                     </div>
-                                    <button className="w-full bg-brand-green text-white font-black py-4.5 rounded-2xl shadow-xl shadow-brand-green/10 uppercase text-xs tracking-widest mt-4 hover:bg-brand-green-hover transition-all active:scale-95">Sign In Now</button>
+                                    <button type="submit" className="w-full bg-brand-green text-white font-black py-4.5 rounded-2xl shadow-xl shadow-brand-green/10 uppercase text-xs tracking-widest mt-4 hover:bg-brand-green-hover transition-all active:scale-95">Sign In Now</button>
                                 </form>
 
                                 <div className="mt-8 pt-8 border-t border-gray-50 text-center">
@@ -312,7 +344,10 @@ const AuthPage = () => {
                                             Next
                                         </button>
                                     ) : (
-                                        <button className="bg-brand-orange text-white px-12 py-4 rounded-full font-black text-[11px] uppercase tracking-widest shadow-xl shadow-brand-orange/10 hover:bg-brand-orange-hover transition-all active:scale-95">
+                                        <button
+                                            onClick={handleAuth}
+                                            className="bg-brand-orange text-white px-12 py-4 rounded-full font-black text-[11px] uppercase tracking-widest shadow-xl shadow-brand-orange/10 hover:bg-brand-orange-hover transition-all active:scale-95"
+                                        >
                                             Create Account
                                         </button>
                                     )}
