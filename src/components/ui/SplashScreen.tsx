@@ -32,9 +32,21 @@ const SplashScreen = () => {
                         {/* Logo Container with soft glow */}
                         <div className="relative">
                             <motion.div
-                                initial={{ scale: 0.8, opacity: 0 }}
-                                animate={{ scale: 1, opacity: 1 }}
-                                transition={{ duration: 1, ease: "easeOut" }}
+                                initial={{ scale: 0.8, opacity: 0, rotate: 0 }}
+                                animate={{
+                                    scale: 1,
+                                    opacity: 1,
+                                    rotate: 360,
+                                }}
+                                transition={{
+                                    scale: { duration: 1, ease: "easeOut" },
+                                    opacity: { duration: 1, ease: "easeOut" },
+                                    rotate: {
+                                        duration: 4,
+                                        ease: "linear",
+                                        repeat: Infinity,
+                                    },
+                                }}
                                 className="relative w-48 h-48 z-10"
                             >
                                 <Image

@@ -196,42 +196,56 @@ export default function ZakatCalculatorPage() {
                 )}
             </AnimatePresence>
 
-            {/* Greeting & Header */}
-            <div className="flex flex-col gap-4">
-                <div className="flex flex-wrap items-center gap-2 md:gap-3">
-                    <span className="text-brand-green font-arabic text-xl md:text-2xl" dir="rtl">السَّلَامُ عَلَيْكُمْ</span>
-                    <h2 className="text-lg md:text-xl font-bold text-slate-text">Assalamu Alaikum, Congo</h2>
-                </div>
+            {/* ── Branded Hero Header ── */}
+            <div className="relative overflow-hidden bg-brand-green text-white p-6 md:p-10 shadow-lg shadow-brand-green/20">
+                {/* Decorative shapes */}
+                <div className="absolute -top-10 -right-10 w-56 h-56 bg-white/5 rounded-full pointer-events-none" />
+                <div className="absolute -bottom-16 -left-8 w-72 h-72 bg-white/5 rounded-full pointer-events-none" />
+                <Scale size={120} className="absolute -right-4 -bottom-6 text-white/5 pointer-events-none" />
 
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div className="flex flex-col gap-2">
-                        <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:gap-4">
-                            <h1 className="text-3xl md:text-4xl font-heading font-black text-foreground uppercase tracking-tight leading-none">Smart Zakat Calculator</h1>
-                            <button
-                                onClick={() => setShowGuide(true)}
-                                className="bg-brand-orange text-white px-3 py-1.5 rounded-none text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange-hover transition-all flex items-center gap-1.5 active:scale-95 shadow-lg shadow-brand-orange/20 w-fit whitespace-nowrap"
-                            >
-                                <Info size={14} /> Step by Step Guide
-                            </button>
-                        </div>
-                        <p className="text-slate-text text-base md:text-lg leading-tight font-medium max-w-2xl">A guided journey to fulfill your spiritual obligation with precision.</p>
+                <div className="relative z-10 flex flex-col gap-3">
+                    <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                        <span className="text-brand-orange font-arabic text-xl md:text-2xl" dir="rtl">
+                            السَّلَامُ عَلَيْكُمْ
+                        </span>
+                        <span className="text-white/60 text-sm font-medium">Assalamu Alaikum, Congo</span>
                     </div>
 
-                    <div className="flex bg-white shadow-sm border border-gray-100 p-1 rounded-none h-fit w-fit self-start md:self-end">
-                        {currencies.map((curr) => (
-                            <button
-                                key={curr.code}
-                                onClick={() => setCurrentCurrency(curr)}
-                                className={cn(
-                                    "px-4 md:px-6 py-2 text-sm font-black transition-all rounded-none",
-                                    currentCurrency.code === curr.code
-                                        ? "bg-brand-green text-white shadow-lg shadow-brand-green/20"
-                                        : "text-slate-text hover:bg-light-gray"
-                                )}
-                            >
-                                {curr.code}
-                            </button>
-                        ))}
+                    <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                        <div className="flex flex-col gap-2">
+                            <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                                <h1 className="text-3xl md:text-4xl font-heading font-black uppercase tracking-tight leading-none">
+                                    Smart Zakat Calculator
+                                </h1>
+                                <button
+                                    onClick={() => setShowGuide(true)}
+                                    className="bg-brand-orange text-white px-3 py-1.5 text-[10px] font-black uppercase tracking-widest hover:bg-brand-orange-hover transition-all flex items-center gap-1.5 active:scale-95 shadow-lg shadow-brand-orange/20 w-fit whitespace-nowrap"
+                                >
+                                    <Info size={14} /> Step by Step Guide
+                                </button>
+                            </div>
+                            <p className="text-white/70 text-sm md:text-base font-medium max-w-xl">
+                                A guided journey to fulfil your spiritual obligation with precision.
+                            </p>
+                        </div>
+
+                        {/* Currency switcher */}
+                        <div className="flex bg-white/10 backdrop-blur-sm border border-white/20 p-1 h-fit w-fit self-start sm:self-end shrink-0">
+                            {currencies.map((curr) => (
+                                <button
+                                    key={curr.code}
+                                    onClick={() => setCurrentCurrency(curr)}
+                                    className={cn(
+                                        "px-4 md:px-5 py-2 text-sm font-black transition-all",
+                                        currentCurrency.code === curr.code
+                                            ? "bg-white text-brand-green shadow"
+                                            : "text-white/70 hover:text-white"
+                                    )}
+                                >
+                                    {curr.code}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>

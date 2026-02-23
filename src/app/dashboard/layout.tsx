@@ -32,7 +32,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
                 isCollapsed ? "lg:ml-20" : "lg:ml-64"
             )}>
                 <TopBar />
-                <div className="p-4 md:p-6 lg:p-10 flex-1 pb-32 lg:pb-10">
+                <div className="p-3 md:p-6 lg:p-10 flex-1 pb-40 lg:pb-10">
                     {children}
                 </div>
             </main>

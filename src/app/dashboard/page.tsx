@@ -6,39 +6,41 @@ import CalculatorCard from "@/components/dashboard/CalculatorCard";
 import GivingMap from "@/components/dashboard/GivingMap";
 import ImpactTracker from "@/components/dashboard/ImpactTracker";
 import { motion, AnimatePresence } from "framer-motion";
-import { History, Calculator, MapPin, Search } from "lucide-react";
+import { History, Calculator, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const container = {
     hidden: { opacity: 0 },
     show: {
         opacity: 1,
-        transition: {
-            staggerChildren: 0.1
-        }
-    }
+        transition: { staggerChildren: 0.1 },
+    },
 };
 
 const item = {
     hidden: { y: 20, opacity: 0 },
-    show: { y: 0, opacity: 1 }
+    show: { y: 0, opacity: 1 },
 };
+
 
 type TabId = "impact" | "calculator" | "map";
 
 interface Tab {
     id: TabId;
     label: string;
+    shortLabel: string;
     icon: React.ElementType;
 }
 
-const tabs: Tab[] = [
-    { id: "impact", label: "Transparency Tracker", icon: History },
-    { id: "calculator", label: "Quick Calculator", icon: Calculator },
-    { id: "map", label: "Local Giving Map", icon: MapPin },
-];
-
 export default function DashboardPage() {
+    // ⚠️ Defined inside the component so lucide forwardRef icons never appear
+    // at module scope where Next.js RSC serialization would choke on them.
+    const tabs: Tab[] = [
+        { id: "impact", label: "Transparency Tracker", shortLabel: "Tracker", icon: History },
+        { id: "calculator", label: "Quick Calculator", shortLabel: "Calculator", icon: Calculator },
+        { id: "map", label: "Local Giving Map", shortLabel: "Map", icon: MapPin },
+    ];
+
     const [activeTab, setActiveTab] = useState<TabId>("impact");
 
     return (
@@ -53,46 +55,54 @@ export default function DashboardPage() {
                 <OverviewHeader />
             </motion.div>
 
-            {/* Refined Sticky Tabs Navigation */}
-            <motion.div
-                variants={item}
-                className="sticky top-16 z-20 bg-brand-green/95 backdrop-blur-md -mx-4 md:-mx-6 lg:-mx-10 py-1 shadow-lg shadow-brand-green/10 flex justify-center"
-            >
-                <div className="w-full overflow-x-auto no-scrollbar scroll-smooth">
-                    <div className="flex items-center gap-1 p-2 min-w-max mx-auto px-4">
-                        {tabs.map((tab) => {
-                            const Icon = tab.icon;
-                            const isActive = activeTab === tab.id;
-                            return (
-                                <button
-                                    key={tab.id}
-                                    onClick={() => setActiveTab(tab.id)}
+            {/* Tab Navigation — fits mobile without overflow */}
+            <motion.div variants={item} className="w-full">
+                <div className="flex items-stretch bg-white border border-gray-100 shadow-sm rounded-none overflow-hidden">
+                    {tabs.map((tab) => {
+                        const Icon = tab.icon;
+                        const isActive = activeTab === tab.id;
+                        return (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={cn(
+                                    "relative flex flex-1 flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2 py-3 sm:py-2.5 px-2 sm:px-4 text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-all",
+                                    isActive
+                                        ? "text-white"
+                                        : "text-slate-text hover:text-brand-green hover:bg-gray-50"
+                                )}
+                            >
+                                {/* Animated active indicator — bottom border on mobile, bg on desktop */}
+                                {isActive && (
+                                    <motion.div
+                                        layoutId="activeTabIndicator"
+                                        className="absolute inset-0 bg-brand-orange shadow-lg shadow-brand-orange/20"
+                                        initial={false}
+                                        transition={{ type: "spring", bounce: 0.15, duration: 0.45 }}
+                                    />
+                                )}
+                                <Icon
+                                    size={18}
                                     className={cn(
-                                        "flex items-center gap-2 px-6 py-2.5 rounded-none text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap relative shrink-0",
-                                        isActive
-                                            ? "text-brand-green scale-105"
-                                            : "text-white/80 hover:text-white"
+                                        "relative z-10 shrink-0 transition-colors",
+                                        isActive ? "text-white" : "text-slate-text"
                                     )}
-                                >
-                                    <Icon size={16} className="relative z-10" />
-                                    <span className="relative z-10">{tab.label}</span>
-                                    {isActive && (
-                                        <motion.div
-                                            layoutId="activeTabBackground"
-                                            className="absolute inset-0 bg-brand-orange shadow-lg shadow-brand-orange/20"
-                                            initial={false}
-                                            transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
-                                        />
-                                    )}
-                                </button>
-                            );
-                        })}
-                    </div>
+                                />
+                                {/* Short label on mobile, full label on sm+ */}
+                                <span className="relative z-10 leading-tight text-center sm:hidden">
+                                    {tab.shortLabel}
+                                </span>
+                                <span className="relative z-10 leading-tight hidden sm:block">
+                                    {tab.label}
+                                </span>
+                            </button>
+                        );
+                    })}
                 </div>
             </motion.div>
 
             {/* Tab Content */}
-            <motion.div variants={item} className="min-h-[600px]">
+            <motion.div variants={item} className="min-h-[500px]">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={activeTab}
