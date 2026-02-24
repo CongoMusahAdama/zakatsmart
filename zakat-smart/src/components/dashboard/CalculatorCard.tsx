@@ -19,7 +19,7 @@ const assetClasses = [
 ];
 
 export default function CalculatorCard() {
-    const [selectedCurrency, setSelectedCurrency] = useState(currencies[0]);
+    const [selectedCurrency, setSelectedCurrency] = useState<typeof currencies[number]>(currencies[0]);
     const [values, setValues] = useState<Record<string, number>>({
         cash: 0, gold: 0, business: 0, investments: 0,
     });
@@ -70,8 +70,8 @@ export default function CalculatorCard() {
                     {currencies.map((curr) => (
                         <button key={curr.code} onClick={() => setSelectedCurrency(curr)}
                             className={`px-3 py-1 rounded-none text-[10px] font-black tracking-widest transition-all ${selectedCurrency.code === curr.code
-                                    ? "bg-brand-green text-white shadow-sm"
-                                    : "text-slate-text hover:text-brand-green"
+                                ? "bg-brand-green text-white shadow-sm"
+                                : "text-slate-text hover:text-brand-green"
                                 }`}>
                             {curr.code}
                         </button>
@@ -124,8 +124,8 @@ export default function CalculatorCard() {
                         <button onClick={handleQuickSave} disabled={saving || totalAssets === 0}
                             title="Save this quick calculation"
                             className={`px-3 py-2 text-[10px] font-black uppercase tracking-widest transition-all active:scale-95 flex items-center gap-1.5 disabled:opacity-40 disabled:cursor-not-allowed ${saved
-                                    ? "bg-brand-green/10 text-brand-green"
-                                    : "bg-light-gray text-slate-text hover:bg-brand-green/10 hover:text-brand-green"
+                                ? "bg-brand-green/10 text-brand-green"
+                                : "bg-light-gray text-slate-text hover:bg-brand-green/10 hover:text-brand-green"
                                 }`}>
                             {saving
                                 ? <Loader2 size={13} className="animate-spin" />
