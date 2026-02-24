@@ -1,11 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Search, Bell, User, MessageSquare } from "lucide-react";
 import { useSearch } from "@/context/SearchContext";
+import { userStorage, type AuthUser } from "@/lib/api";
 
 export default function TopBar() {
     const { searchQuery, setSearchQuery } = useSearch();
+    const [user, setUser] = useState<AuthUser | null>(null);
+
+    useEffect(() => {
+        setUser(userStorage.get());
+    }, []);
+
+    const displayName = user?.fullName || "Guest";
+    const role = user?.role
+        ? user.role.charAt(0).toUpperCase() + user.role.slice(1) + " Member"
+        : "Member";
 
     return (
         <header className="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-4 md:px-6 lg:px-10 sticky top-0 z-30">
@@ -38,8 +49,8 @@ export default function TopBar() {
 
                 <div className="flex items-center gap-3 cursor-pointer group">
                     <div className="text-right hidden sm:block">
-                        <p className="text-sm font-semibold text-foreground leading-tight">Congo Musah Adama</p>
-                        <p className="text-[10px] text-slate-text font-medium uppercase tracking-wider">Premium Member</p>
+                        <p className="text-sm font-semibold text-foreground leading-tight">{displayName}</p>
+                        <p className="text-[10px] text-slate-text font-medium uppercase tracking-wider">{role}</p>
                     </div>
                     <div className="w-10 h-10 rounded-none bg-brand-green/10 flex items-center justify-center text-brand-green border border-brand-green/20 overflow-hidden group-hover:border-brand-green transition-all">
                         <User size={20} />

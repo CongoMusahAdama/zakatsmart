@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { CheckCircle2, AlertCircle, Heart } from "lucide-react";
+import { CheckCircle2, AlertCircle, Heart, Loader2 } from "lucide-react";
 
 interface LiveSummaryProps {
     symbol: string;
@@ -12,6 +12,9 @@ interface LiveSummaryProps {
     isAboveNisab: boolean;
     nisab: number;
     className?: string;
+    /** Called when user clicks "Fulfill Now" */
+    onFulfill?: () => void;
+    fulfilling?: boolean;
 }
 
 export default function LiveSummary({
@@ -22,10 +25,12 @@ export default function LiveSummary({
     zakatDue,
     isAboveNisab,
     nisab,
-    className
+    className,
+    onFulfill,
+    fulfilling = false,
 }: LiveSummaryProps) {
     return (
-        <div className={`bg-white border-2 border-brand-green/20 rounded-none shadow-xl shadow-brand-green/5 overflow-hidden ${className}`}>
+        <div className={`bg-white border-2 border-brand-green/20 rounded-none shadow-xl shadow-brand-green/5 overflow-hidden ${className ?? ""}`}>
             <div className="bg-brand-green px-6 py-4">
                 <h3 className="text-white font-black uppercase tracking-widest text-sm text-center">Your Live Summary</h3>
             </div>
@@ -49,14 +54,16 @@ export default function LiveSummary({
                 {isAboveNisab ? (
                     <div className="bg-brand-green/5 p-4 border border-brand-green/20 rounded-none text-center">
                         <p className="text-[10px] font-black uppercase text-brand-green tracking-widest mb-1">Zakat Due (2.5%)</p>
-                        <h4 className="text-3xl font-black text-brand-green">{symbol}{zakatDue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
+                        <h4 className="text-3xl font-black text-brand-green">
+                            {symbol}{zakatDue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </h4>
                     </div>
                 ) : (
                     <div className="bg-brand-orange/5 p-4 border border-brand-orange/20 rounded-none">
                         <div className="flex gap-3 items-start">
                             <AlertCircle className="text-brand-orange shrink-0" size={18} />
                             <p className="text-xs text-slate-text leading-relaxed font-medium">
-                                You haven't reached the <strong>Nisab threshold</strong> yet ({symbol}{nisab.toLocaleString()}). No Zakat is due at this time.
+                                You haven&apos;t reached the <strong>Nisab threshold</strong> yet ({symbol}{nisab.toLocaleString()}). No Zakat is due at this time.
                             </p>
                         </div>
                         <button className="w-full mt-4 bg-brand-orange text-white py-2.5 rounded-none font-black text-xs uppercase tracking-widest hover:bg-brand-orange-hover transition-all flex items-center justify-center gap-2 active:scale-95">
@@ -66,8 +73,16 @@ export default function LiveSummary({
                 )}
 
                 {isAboveNisab && (
-                    <button className="w-full bg-brand-green text-white py-4 rounded-none font-black text-sm uppercase tracking-widest hover:bg-brand-green-light transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-green/30 active:scale-95 group">
-                        Fulfill Now <CheckCircle2 size={18} className="group-hover:translate-x-1 transition-transform" />
+                    <button
+                        onClick={onFulfill}
+                        disabled={fulfilling}
+                        className="w-full bg-brand-green text-white py-4 rounded-none font-black text-sm uppercase tracking-widest hover:bg-brand-green-light transition-all flex items-center justify-center gap-2 shadow-lg shadow-brand-green/30 active:scale-95 group disabled:opacity-70 disabled:cursor-wait"
+                    >
+                        {fulfilling ? (
+                            <><Loader2 size={18} className="animate-spin" /> Fulfilling…</>
+                        ) : (
+                            <>Fulfill Now <CheckCircle2 size={18} className="group-hover:translate-x-1 transition-transform" /></>
+                        )}
                     </button>
                 )}
 
